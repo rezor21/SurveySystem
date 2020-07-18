@@ -1,0 +1,61 @@
+﻿
+@model UserAnswersPageModel
+
+@{
+    ViewData["Title"] = "AddUserAnswer";
+}
+
+
+
+
+<h1>Choice Answer</h1>
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="ChoiceAnswer" method="post" id="formAnswerScheme">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                @foreach (var item in Model.UserAnswers)
+                {
+                    <div>
+                        <input asp-for="@item.Value" id="checkBox">
+                        @item.Answer
+                    </div>
+                    <input type="hidden" asp-for="@item.Answer">
+                    <input type="hidden" asp-for="@item.QuestionId">
+                    <input type="hidden" asp-for="@item.UserId">
+                }
+            </div>
+            <div class="form-group">
+                <input id="btnClick" value="Submit" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="UserAnswerView">Back to List</a>
+</div>
+
+<script type="text/javascript">
+    $("#btnClick").click(function () {
+
+        $.ajax({
+            url: 'Home/ChoiceAnswer',
+            type: 'POST',
+            dataType: 'json',
+            data: $("#formAnswerScheme").serialize(),
+            success: function (data) {
+                console.log(data);
+            },
+            error: function (xhr, textStatus, exceptionThrown) { alert(JSON.parse(xhr.responseText)); }
+        });
+    });
+
+
+</script>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

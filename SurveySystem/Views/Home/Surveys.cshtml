@@ -1,0 +1,48 @@
+﻿@model IEnumerable<SurveySystem.Data.Survey>
+
+@{
+    ViewData["Title"] = "Surveys";
+}
+
+<h1>Surveys</h1>
+
+@foreach (var item in Model)
+{
+<ul>
+    <li>
+        @Html.DisplayFor(modelItem => item.Title)
+    </li>
+    Questions:
+    @if (item.Questions != null)
+    {
+        @foreach (var itemQ in item.Questions)
+        {
+
+            <ul>
+                <li>
+                    @Html.DisplayFor(modelItem => itemQ.Title)
+                </li>
+                Answers:
+                @if (itemQ.Answers != null)
+                {
+                    @foreach (var itemA in itemQ.Answers)
+                    {
+
+                        <ul>
+                            <li>
+                                @Html.DisplayFor(modelItem => itemA.Title)
+                            </li>
+                        </ul>
+
+                    }
+                }
+                <a class="btn btn-primary" asp-action="AddAnswerView" asp-route-id="@itemQ.Id">Add Answer</a>
+
+            </ul>
+        }
+    }
+    <a class="btn btn-primary" asp-action="AddQuestionView" asp-route-id="@item.Id" >Add Question</a>
+</ul>
+}
+
+<a class="btn btn-primary" asp-action="AddItemView">Add Survey</a>

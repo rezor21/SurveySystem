@@ -1,0 +1,32 @@
+﻿
+@model ICollection<SurveySystem.Data.Survey>
+@{
+    ViewData["Title"] = "UserAnswerView";
+}
+
+<h1>Surveys</h1>
+
+@foreach (var item in Model)
+{
+    <ul>
+        <li>
+            @Html.DisplayFor(modelItem => item.Title)
+        </li>
+        Questions:
+        @if (item.Questions != null)
+        {
+            @foreach (var itemQ in item.Questions)
+            {
+
+                <ul>
+                    <li>
+                        @Html.DisplayFor(modelItem => itemQ.Title)
+                    </li>
+
+                    <a class="btn btn-primary" asp-action="AddUserAnswerView" asp-route-id="@itemQ.Id">Choice Answer</a>
+
+                </ul>
+            }
+        }
+    </ul>
+}
